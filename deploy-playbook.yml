@@ -21,7 +21,7 @@
           - virtualenvwrapper
     - name: Get updated files from git repository
       git:
-        repo: https://drnonso:augustine1.@bitbucket.org/seadvocacy/drohealth-web.git
+        repo: https://{{ githubuser | urlencode }}:{{ githubpassword }}@{{ githubrepo }}
         dest: /tmp
   # roles:
   #   - setup
