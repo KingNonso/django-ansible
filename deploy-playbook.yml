@@ -1,0 +1,42 @@
+---
+- hosts: staging
+
+  become: yes
+  become_method: sudo
+  gather_facts: no
+
+
+  vars_files:
+    - shared_vars.yml
+
+  tasks:
+    - name: Ensure Nginx and uwsgi and git is installed
+      apt: name={{ item }} state=present
+      with_items:
+          - nginx
+          - uwsgi
+          - git
+          - python3-pip
+          - virtualenv
+          - virtualenvwrapper
+    - name: Get updated files from git repository
+      git:
+        repo: https://drnonso:augustine1.@bitbucket.org/seadvocacy/drohealth-web.git
+        dest: /tmp
+  # roles:
+  #   - setup
+  #   - deploy
+
+
+  post_tasks:
+      - name: Restart Nginx and uWSGi Last time
+        service: name={{ item }} state=restarted
+        with_items:
+            - nginx
+            - uwsgi
+
+      - name: Ensure Nginx and uWSGi is running
+        service: name={{ item }} state=started enabled=yes
+        with_items:
+            - nginx
+            - uwsgi
