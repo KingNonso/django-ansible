@@ -1,0 +1,16 @@
+---
+
+application_name: drohealth
+
+virtualenv_path: /home/nonso/Env/drohealth
+
+requirements_file: /home/nonso/drohealth/requirements.txt
+
+project_path: /home/nonso/drohealth
+
+django_settings_file: "{{ application_name }}.settings.local"
+
+django_environment: /home/nonso/drohealth
+
+githubuser: drnonso
+
