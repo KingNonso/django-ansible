@@ -1,5 +1,5 @@
 ---
-- hosts: staging
+- hosts: "{{ vhost | default('dev') }}"
 
   become: yes
   become_method: sudo
