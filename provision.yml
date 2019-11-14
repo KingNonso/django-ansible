@@ -1,0 +1,85 @@
+---
+- name: Ensure Nginx and uwsgi and git is installed
+  apt: name={{ item }} state=present
+  with_items:
+    - nginx
+    - git
+    - libpq-dev
+    - python3-psycopg2
+    - python3-dev
+    - python3-pip
+    - build-essential
+  tags: provision
+
+- name: Install packages required site wide
+  pip: name={{ item }} state=present
+  with_items:
+    - virtualenv
+    - virtualenvwrapper
+    - uwsgi
+  tags: provision
+
+- name: Write Bash command to file ~/.bashrc
+  tags: bashrc
+  blockinfile:
+    path: ~/.bashrc
+    block: |
+      export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+      export WORKON_HOME=~/Env
+      source /usr/local/bin/virtualenvwrapper.sh
+      alias python=python3
+    insertafter: EOF
+    state: present
+
+- name: Copy my favorite bash aliases to ~/.bash_aliases
+  tags: bashaliases
+  copy:
+    src: ~/.bash_aliases
+    dest: ~/.bash_aliases
+
+- name: Restart shell to activate Env
+  command: source ~/.bashrc
+
+- name: Activate virtualenv
+  command: mkvirtualenv {{ application_name }}
+
+- name: Create /etc/uwsgi/sites directory if it does not exist
+  #      file:
+  #        path: /etc/uwsgi/sites
+  #        state: directory
+  template:
+    src: ini.j2
+    dest: /etc/uwsgi/sites/{{ application_name }}.ini
+    owner: root
+    group: root
+
+- name: Create /etc/systemd/system/uwsgi.service if it does not exist
+  #      file:
+  #        path: /etc/systemd/system
+  #        state: directory
+  template:
+    src: service.j2
+    dest: /etc/systemd/system/uwsgi.service
+    owner: root
+    group: root
+
+- name: Create domain.conf file if it does not exist
+  #      file:
+  #        path: /etc/nginx/sites-available/
+  #        state: directory
+  template:
+    src: domain.j2
+    dest: /etc/nginx/sites-available/{{ domain_name }}.conf
+    owner: root
+    group: root
+
+- name: Create a symbolic link
+  file:
+    src: /etc/nginx/sites-available/{{ domain_name }}.conf
+    dest: /etc/nginx/sites-enabled
+    owner: root
+    group: root
+    state: link
+
+- name: Test nginx configuration
+  command: nginx -t

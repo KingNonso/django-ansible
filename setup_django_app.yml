@@ -1,4 +1,4 @@
---- 
+---
 
 - name: Install packages required by the Django app inside virtualenv
   pip: virtualenv={{ virtualenv_path }} requirements={{ requirements_file }}
@@ -9,7 +9,6 @@
     app_path: "{{ project_path }}"
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"
-  environment: "{{ django_environment }}"
   when: run_django_makemigration is defined and run_django_makemigration
   tags: django.makemigration
 
@@ -19,7 +18,6 @@
     app_path: "{{ project_path }}"
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"
-  environment: "{{ django_environment }}"
   # when: run_django_db_migrations is defined and run_django_db_migrations
   tags: django.migrate
 
@@ -29,7 +27,6 @@
     app_path: "{{ project_path }}"
     virtualenv: "{{ virtualenv_path }}"
     settings: "{{ django_settings_file }}"
-  environment: "{{ django_environment }}"
   # when: run_django_collectstatic is defined and run_django_collectstatic
   # notify: restart application
   tags: django.collectstatic

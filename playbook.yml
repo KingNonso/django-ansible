@@ -1,5 +1,5 @@
 ---
-- hosts: dev
+- hosts: staging
 
   become: yes
   become_method: sudo
@@ -11,18 +11,23 @@
 
   tasks:
     - name: Ensure Nginx and uwsgi and git is installed
-      apt: name={{ item }} state=present
-      with_items:
+      apt:
+        force_apt_get: yes
+        pkg:
           - nginx
-          - uwsgi
           - git
-          - python3-pip
-          - virtualenv
-          - virtualenvwrapper
+          - uwsgi
+          - python-setuptools
+        state: present
+
+      tags: basic
+
     - name: Get updated files from git repository
       git:
-        repo: https://{{ githubuser }}:{{ lookup('env','GITHUB_USER_PASS') }}@bitbucket.org/seadvocacy/drohealth-web.git        
+        repo: https://{{ githubuser }}:{{ lookup('env','GITHUB_USER_PASS') }}@bitbucket.org/seadvocacy/drohealth-web.git
         dest: "{{ project_path }}"
+        version: "{{ git_branch }}"
+        force: yes
       tags: git
     - name: Activate Virtualenv 
       tags: venv
