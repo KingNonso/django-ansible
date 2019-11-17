@@ -41,7 +41,7 @@
       tags: add
       lineinfile:
         path: "{{ project_path }}/{{ application_name }}/settings/__init__.py"
-        line: "from {{ settings_file }} import *"
+        line: "from .{{ settings_file }} import *"
         state: present
         create: yes
 
