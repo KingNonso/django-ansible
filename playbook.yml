@@ -29,7 +29,23 @@
         version: "{{ git_branch }}"
         force: yes
       tags: git
-    - name: Activate Virtualenv 
+
+    - name: Remove import from .local
+      tags: remove
+      lineinfile:
+        path: "{{ project_path }}/{{ application_name }}/settings/__init__.py"
+        regexp: "^from"
+        state: absent
+
+    - name: Write the correct import
+      tags: add
+      lineinfile:
+        path: "{{ project_path }}/{{ application_name }}/settings/__init__.py"
+        line: "from {{ settings_file }} import *"
+        state: present
+        create: yes
+
+    - name: Activate Virtualenv
       tags: venv
       include: setup_django_app.yml
 
