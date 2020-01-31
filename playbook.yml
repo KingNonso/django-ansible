@@ -1,5 +1,5 @@
 ---
-- hosts: "{{ vhost | default('dev') }}"
+- hosts: "{{ vhost | default('master') }}"
 
   become: yes
   become_method: sudo

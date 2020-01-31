@@ -1,17 +1,17 @@
 ---
 
-application_name: drohealth
+application_name: kingnonso
 
 
-githubuser: drnonso
+githubuser: kingnonso
 
 default_host: dev
 
-git_branch: develop
+git_branch: master
 
 settings_file: local
 
-uid: ubuntu
+uid: nonso
 
 #domain_name: staging.drohealth.com
 
