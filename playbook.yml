@@ -1,8 +1,8 @@
 ---
 - hosts: "{{ vhost | default('dev') }}"
 
-  become: yes
-  become_method: sudo
+#  become: yes
+#  become_method: sudo
   gather_facts: no
 
 
