@@ -9,6 +9,8 @@ default_host: dev
 
 git_branch: master
 
+git_url: "https://{{ githubuser }}:{{ lookup('env','GITHUB_USER_PASS') }}@bitbucket.org/seadvocacy/drohealth-web.git"
+
 settings_file: local
 
 uid: nonso

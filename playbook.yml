@@ -25,7 +25,8 @@
 
     - name: Get updated files from git repository
       git:
-        repo: https://{{ githubuser }}:{{ lookup('env','GITHUB_USER_PASS') }}@bitbucket.org/seadvocacy/drohealth-web.git
+        # repo: https://{{ githubuser }}:{{ lookup('env','GITHUB_USER_PASS') }}@bitbucket.org/seadvocacy/drohealth-web.git
+        repo: "{{ git_url }}"
         dest: "{{ project_path }}"
         version: "{{ git_branch }}"
         force: yes
