@@ -9,13 +9,13 @@ default_host: dev
 
 git_branch: master
 
-git_url: "https://{{ githubuser }}:{{ lookup('env','GITHUB_USER_PASS') }}@bitbucket.org/seadvocacy/drohealth-web.git"
+git_url: "https://{{ githubuser }}:{{ lookup('env','GITHUB_USER_PASS') }}@bitbucket.org/repo/branch.git"
 
 settings_file: local
 
 uid: nonso
 
-#domain_name: staging.drohealth.com
+#domain_name: dev.app.com
 
 project_path: "/home/{{ uid }}/{{ application_name }}"
 
